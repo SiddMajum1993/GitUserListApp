@@ -1,0 +1,95 @@
+.login {
+  
+    background: url('../assets/samuel-zeller-379406-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+  
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .loginForm{
+    width: 320px;
+    height: 420px;
+    background: black;
+    color: white;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 60px 30px;
+  }
+  
+  .loginForm h1{
+    font-size: 25px;
+    margin: 0;
+    padding: 0 0 15px;
+    text-align: center;
+  }
+  
+  .loginForm p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  
+  .loginForm input{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .loginForm input[type='text'],input[type='password']{
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    height: 40px;
+    font-size: 16px;
+    color: white;
+  }
+  
+  .loginForm input[type='Submit']{
+    border: none;
+      outline: none;
+      height: 40px;
+      font-size: 18px;
+      color: white;
+      border-radius: 20px;
+      background: red
+  }
+  
+  
+  .loginForm input[type='Submit']:hover {
+    cursor: pointer;
+    background: darkgrey;
+  }
+  
+  .loginForm a{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 20px;
+    color: white;
+  }
+  
+  .loginForm a:hover{
+    color: yellow;
+  }
+  
+  .avatar{
+    width: 100px;
+    height: 100px;
+    border: 2px solid grey; 
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 50px);
+  }
+  
+  
+  
+  
+  
+  
+  
+  

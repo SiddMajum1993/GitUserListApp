@@ -1,0 +1,111 @@
+
+.background{
+    
+    background: url('../assets/samuel-zeller-379406-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+  
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.listContainer{
+    width: 1000px;
+    height: 450px;
+    background: lightgrey;
+    color: black;
+    top: 20%;
+    left: 50%;
+    /* left: 20%; */
+    position: absolute;
+    /* -webkit-transform: translate(-50%,-50%); */
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,0%);
+    box-sizing: border-box;
+    padding: 60px 30px;
+    overflow: scroll;
+}
+
+.profileImage{
+    height: 40px;
+    width: 40px;
+}
+
+.searchbar{
+    width: 100%;
+    background: darkslategrey;
+    padding: 10px;
+}
+
+.searchbar input{
+    width:300px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    height: 40px;
+    font-size: 16px;
+    color: white;
+}
+
+.searchbar button{
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    padding: 10px;
+    width: 100px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+.listContainer table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.listContainer td,th {
+    /* border: 1px solid black; */
+    text-align: left;
+    padding: 8px;
+}
+
+.listContainer tr:nth-child(even) {
+    background-color: white;
+}
+
+/* 
+.userTable{
+    width: 98%;
+    margin: 10px auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,td{
+    padding: 15px;
+}
+
+#sortButton{
+    width: 70px;
+    text-align: center;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 17px;
+    text-decoration: none;
+    border: none;
+}
+
+#sortButton:hover{
+    background-color: darkgray;
+    border: none;
+}
+
+#profileImage{
+    width: 100px;
+} */

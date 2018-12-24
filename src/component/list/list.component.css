@@ -86,7 +86,7 @@
     top: 68%;
     left: 50%;
     transform: translate;
-    transform: translate(-50%,0%);
+    transform: translate(-60%,0%);
     width: 50px;
     text-align: center;
 }

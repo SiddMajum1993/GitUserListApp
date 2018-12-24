@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import './list.component.css';
 
-const LIST_PER_PAGE_START = 4;
+const LIST_PER_PAGE = 4;
 
 class UserList extends Component {
 
@@ -14,10 +14,16 @@ class UserList extends Component {
             filteredUsers: [],
             renderedUsers: [],
             searchString: '',
-            startIndex: 0,
-            lastIndex: LIST_PER_PAGE_START,
+            start: 0,
+            last: 0,
             lengthOfUsers: 0,
         }
+
+        this.renderUsers = this.renderUsers.bind(this);
+        this.sortHandler = this.sortHandler.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+        this.leftPage = this.leftPage.bind(this);
+        this.rightPage = this.rightPage.bind(this);
     }
 
 
@@ -33,10 +39,14 @@ class UserList extends Component {
                     result.map(item => {
                         temp.push(item);
                     })
-                    this.setState({ users: [...temp] });
-                    this.setState({ filteredUsers: [...temp] });
-                    this.setState({ renderedUsers: [...this.renderUsers(this.state.filteredUsers)]});   
-                    console.log("[ComponentDidMount] ", this.state.users);
+                    this.setState({ filteredUsers: [...temp], users: [...temp] }, function () {
+                        this.setState({ lengthOfUsers: this.state.filteredUsers.length }, function () {
+
+                            console.log('[ComponentDidMount]-->', this.state);
+                            this.renderUsers(this.state.start);
+                        });
+                    });
+
                 },
                 (error) => {
                     console.log(error);
@@ -45,17 +55,18 @@ class UserList extends Component {
 
     //method to initialize list of users to render
 
-    renderUsers = (arr) => {
+    renderUsers = (start) => {
+        if (start - this.state.lengthOfUsers < 0) {
 
-        let renderedUser = [];
-        arr.map((item, index) => {
-            if (index >= this.state.startIndex && index < this.state.lastIndex) {
-                renderedUser.push(item);
+            let arr = [];
+            let i = start;
+            while (i < start + LIST_PER_PAGE) {
+                arr.push(this.state.filteredUsers[i]);
+                i++;
             }
-        });
-        this.setState({ startIndex: this.state.lastIndex });
-        this.setState({ lastIndex: this.state.lastIndex + LIST_PER_PAGE_START });
-        return renderedUser;
+
+            this.setState({ start: i, last: i + LIST_PER_PAGE, lengthOfUsers: this.state.filteredUsers.length, renderedUsers: [...arr] });
+        }
     }
 
 
@@ -100,16 +111,38 @@ class UserList extends Component {
 
         temp = _.without(temp, undefined);
         this.setState({ filteredUsers: [...temp] });
-        this.setState({ renderedUsers: [...this.renderUsers(this.state.filteredUsers)]});
+        this.renderUsers(this.state.start, this.state.last);
     }
 
     //Page handlers
     leftPage = () => {
+        if (this.state.start !== 0) {
+            let visibleList = this.state.last % 4;
+            let start = (this.state.start - visibleList) > 0 ? (this.state.start - visibleList) : 0;
+            let i = start - LIST_PER_PAGE;
+            let arr = [];
+            while (i < start) {
+                arr.push(this.state.filteredUsers[i]);
+                i++;
+            }
 
+            this.setState({ last: start, start: start - LIST_PER_PAGE, renderedUsers: [...arr] });
+        }
     }
 
     rightPage = () => {
+        if (this.state.start - this.state.lengthOfUsers < 0) {
+            let i = this.state.start;
+            let arr = [];
+            while (i < Math.min(this.state.start + LIST_PER_PAGE, this.state.lengthOfUsers)) {
+                arr.push(this.state.filteredUsers[i]);
+                i++;
+            }
 
+            this.setState({ start: i, last: Math.min(i + LIST_PER_PAGE, this.state.lengthOfUsers), lengthOfUsers: this.state.filteredUsers.length, renderedUsers: [...arr] });
+        } else {
+            alert('No more data');
+        }
     }
 
 
@@ -155,9 +188,9 @@ class UserList extends Component {
                         <button onClick={this.sortHandler}>Sort</button>
                     </div>
                     {val}
+                    <button onClick={this.leftPage} className='leftButton'>Left</button>
+                    <button onClick={this.rightPage} className='rightButton'>Right</button>
                 </div>
-                <button onClick={this.leftPage} className='leftButton'>Left</button>
-                <button onClick={this.rightPage} className='rightButton'>Right</button>
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 import avatar from '../assets/avatar.png';
 
 import './login.component.css';
@@ -48,7 +48,7 @@ class LoginComponent extends Component {
                         <p>Password</p>
                         <input type='password' placeholder='Enter Password' onChange={this.handleChangePassword}/>
                         <input type='Submit' value='Login' />
-                        <a href='#' >New User? Register Here!</a>
+                        <Link to='/register' className='registerRoute'>New User? Register Here!</Link>
                     </form>
                 </div>
             </div>

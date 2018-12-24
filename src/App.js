@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import LoginComponent from './component/login/login.component';
 import ListComponent from './component/list/list.component';
+import RegistrationComponent from './component/registration/registration.component';
 
 
 
@@ -13,6 +14,7 @@ class App extends Component {
     super(props);
 
     this.handleLogin = this.handleLogin.bind(this);
+    this.registerUser = this.registerUser.bind(this);
   }
 
 
@@ -20,7 +22,7 @@ class App extends Component {
 
   state = {
     user: [
-      { username: 'admin', password: 'admin' },
+      { username: 'admin', password: 'admin', name: 'admin' },
     ]
   }
 
@@ -36,27 +38,57 @@ class App extends Component {
     return count > 0 ? true : false;
   }
 
+  // define method to register new user
+
+  registerUser = (obj) => {
+    let userArray = [...this.state.user];
+    let userObj = {
+      'username': obj.uname,
+      'password': obj.password,
+      'name': obj.name,
+    }
+    userArray.push(userObj);
+    this.setState({ user: userArray });
+    this.props.history.push('/');
+  }
+
   //difine login handler
 
   handleLogin = (obj) => {
     //check if user exists
     if (this.checkUserExists(obj.username)) {
       console.log('Logging In in 5secs......');
+      // ToDo username password validation
       this.props.history.push('/userlist');
-      
+
     } else {
       alert("Username dosen't exists");
     }
   }
+
+  //define registration handler
+
+  handleRegistration = (obj) => {
+    if (this.checkUserExists(obj.uname)) {
+      alert("Username already exists. Try another one!");
+    } else {
+      this.registerUser(obj);
+    }
+  }
+
+
 
 
   render() {
     console.log(this.props)
     return (
       <div>
+        <Switch>
 
-        <Route path='/' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
-        <Route path='/userlist' exact component={ListComponent} />
+          <Route path='/userlist' exact component={ListComponent} />
+          <Route path='/register' exact render={(props) => (<RegistrationComponent {...props} onRegister={this.handleRegistration} />)} />
+          <Route path='/' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
+        </Switch>
       </div>
     );
   }

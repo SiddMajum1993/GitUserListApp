@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import './list.component.css';
 
+const LIST_PER_PAGE_START = 4;
+
 class UserList extends Component {
 
     constructor(props) {
@@ -10,11 +12,14 @@ class UserList extends Component {
         this.state = {
             users: [],
             filteredUsers: [],
+            renderedUsers: [],
             searchString: '',
+            startIndex: 0,
+            lastIndex: LIST_PER_PAGE_START,
+            lengthOfUsers: 0,
         }
     }
 
-    //state
 
     //load data by API call
     componentDidMount() {
@@ -30,11 +35,27 @@ class UserList extends Component {
                     })
                     this.setState({ users: [...temp] });
                     this.setState({ filteredUsers: [...temp] });
+                    this.setState({ renderedUsers: [...this.renderUsers(this.state.filteredUsers)]});   
                     console.log("[ComponentDidMount] ", this.state.users);
                 },
                 (error) => {
                     console.log(error);
                 })
+    }
+
+    //method to initialize list of users to render
+
+    renderUsers = (arr) => {
+
+        let renderedUser = [];
+        arr.map((item, index) => {
+            if (index >= this.state.startIndex && index < this.state.lastIndex) {
+                renderedUser.push(item);
+            }
+        });
+        this.setState({ startIndex: this.state.lastIndex });
+        this.setState({ lastIndex: this.state.lastIndex + LIST_PER_PAGE_START });
+        return renderedUser;
     }
 
 
@@ -79,14 +100,25 @@ class UserList extends Component {
 
         temp = _.without(temp, undefined);
         this.setState({ filteredUsers: [...temp] });
+        this.setState({ renderedUsers: [...this.renderUsers(this.state.filteredUsers)]});
     }
+
+    //Page handlers
+    leftPage = () => {
+
+    }
+
+    rightPage = () => {
+
+    }
+
 
 
     render() {
 
         console.log('[ListComponent: ]', this.state);
         let val = null;
-        if (this.state.filteredUsers !== null) {
+        if (this.state.renderedUsers !== null) {
             val = (
                 <table className='userTable'>
                     <tr>
@@ -97,7 +129,7 @@ class UserList extends Component {
                         <th>TestData</th>
                         <th>UserType</th>
                     </tr>
-                    {this.state.filteredUsers.map(item => {
+                    {this.state.renderedUsers.map(item => {
                         return (<tr>
                             <td>
                                 <img src={item.avatar_url} className='profileImage' />
@@ -124,6 +156,8 @@ class UserList extends Component {
                     </div>
                     {val}
                 </div>
+                <button onClick={this.leftPage} className='leftButton'>Left</button>
+                <button onClick={this.rightPage} className='rightButton'>Right</button>
             </div>
         );
     }

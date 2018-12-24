@@ -1,4 +1,4 @@
-.login {
+.registration {
   
     background: url('../assets/samuel-zeller-379406-unsplash.jpg');
     background-size: cover;
@@ -9,7 +9,7 @@
     width: 100%;
   }
   
-  .loginForm{
+  .registrationForm{
     width: 420px;
     height: 520px;
     background: black;
@@ -22,25 +22,25 @@
     padding: 60px 30px;
   }
   
-  .loginForm h1{
+  .registrationForm h1{
     font-size: 25px;
     margin: 0;
     padding: 0 0 15px;
     text-align: center;
   }
   
-  .loginForm p{
+  .registrationForm p{
     margin: 0;
     padding: 0;
     font-weight: bold;
   }
   
-  .loginForm input{
+  .registrationForm input{
     width: 100%;
     margin-bottom: 20px;
   }
   
-  .loginForm input[type='text'],input[type='password']{
+  .registrationForm input[type='text'],input[type='password']{
     border: none;
     border-bottom: 1px solid white;
     background: transparent;
@@ -49,7 +49,7 @@
     color: white;
   }
   
-  .loginForm input[type='Submit']{
+  .registrationForm input[type='Submit']{
     border: none;
       outline: none;
       height: 40px;
@@ -60,20 +60,9 @@
   }
   
   
-  .loginForm input[type='Submit']:hover {
+  .registrationForm input[type='Submit']:hover {
     cursor: pointer;
     background: darkgrey;
-  }
-  
-  .registerRoute{
-    text-decoration: none;
-    font-size: 12px;
-    line-height: 20px;
-    color: white;
-  }
-  
-  .registerRoute:hover{
-    color: yellow;
   }
   
   .avatar{
@@ -85,11 +74,3 @@
     top: -50px;
     left: calc(50% - 50px);
   }
-  
-  
-  
-  
-  
-  
-  
-  

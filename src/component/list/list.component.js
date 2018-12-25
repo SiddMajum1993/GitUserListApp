@@ -55,7 +55,7 @@ class UserList extends Component {
 
     //method to initialize list of users to render
 
-    renderUsers = (start, filterArr = this.state.filteredUsers) => {
+    renderUsers = (start = 0, filterArr = this.state.filteredUsers) => {
         if (start - this.state.lengthOfUsers < 0) {
 
             let arr = [];
@@ -74,30 +74,36 @@ class UserList extends Component {
 
     //SortHandler
     sortHandler = () => {
-        let switching = true;
-        let rows, shouldSwitch, tableRows, x, y, i;
-        let table = document.getElementsByClassName('userTable');
-        tableRows = table[0].getElementsByTagName('TR');
-        console.log(tableRows.length);
-        while (switching) {
-            switching = false;
-            for (i = 1; i < (tableRows.length - 1); i++) {
-                x = tableRows[i].getElementsByTagName('TD')[1];
-                y = tableRows[i + 1].getElementsByTagName('TD')[1];
+        // let switching = true;
+        // let rows, shouldSwitch, tableRows, x, y, i;
+        // let table = document.getElementsByClassName('userTable');
+        // tableRows = table[0].getElementsByTagName('TR');
+        // console.log(tableRows.length);
+        // while (switching) {
+        //     switching = false;
+        //     for (i = 1; i < (tableRows.length - 1); i++) {
+        //         x = tableRows[i].getElementsByTagName('TD')[1];
+        //         y = tableRows[i + 1].getElementsByTagName('TD')[1];
 
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
+        //         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        //             shouldSwitch = true;
+        //             break;
+        //         }
+        //     }
 
-            if (shouldSwitch) {
-                if (i < tableRows.length - 1) {
-                    tableRows[i].parentNode.insertBefore(tableRows[i + 1], tableRows[i]);
-                    switching = true;
-                }
-            }
-        }
+        //     if (shouldSwitch) {
+        //         if (i < tableRows.length - 1) {
+        //             tableRows[i].parentNode.insertBefore(tableRows[i + 1], tableRows[i]);
+        //             switching = true;
+        //         }
+        //     }
+        // }
+
+        let filteredUsers = [...this.state.filteredUsers];
+        filteredUsers = _.sortBy(filteredUsers, ['login']);
+        //console.log(filteredUsers);
+        this.renderUsers(undefined,filteredUsers);
+
     }
 
 

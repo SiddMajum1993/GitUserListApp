@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 import LoginComponent from './component/login/login.component';
 import ListComponent from './component/list/list.component';
 import RegistrationComponent from './component/registration/registration.component';
@@ -55,15 +57,15 @@ class App extends Component {
 
   //validate login
 
-  validateLogin = (obj)=>{
+  validateLogin = (obj) => {
     let ind = 0;
-    this.state.user.map((item,index)=>{
-      if(item.username === obj.username){
+    this.state.user.map((item, index) => {
+      if (item.username === obj.username) {
         ind = index;
       }
     });
 
-    if(this.state.user[ind].password === obj.password)
+    if (this.state.user[ind].password === obj.password)
       return true;
     else
       return false;
@@ -76,10 +78,10 @@ class App extends Component {
     if (this.checkUserExists(obj.username)) {
       console.log('Logging In in 5secs......');
       // ToDo username password validation
-      if(this.validateLogin(obj)){
+      if (this.validateLogin(obj)) {
 
         this.props.history.push('/userlist');
-      }else{
+      } else {
         alert('Usename Password Incorrect');
       }
 
@@ -105,12 +107,19 @@ class App extends Component {
     console.log(this.props)
     return (
       <div>
-        <Switch>
-
-          <Route path='/userlist' exact component={ListComponent} />
-          <Route path='/register' exact render={(props) => (<RegistrationComponent {...props} onRegister={this.handleRegistration} />)} />
-          <Route path='/' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
-        </Switch>
+        <TransitionGroup>
+          <CSSTransition
+            key={this.props.location.key}
+            timeout={{ enter: 300, exit: 300 }}
+            classNames={'fade'}
+          >
+            <Switch location={this.props.location}>
+              <Route path='/userlist' exact component={ListComponent} />
+              <Route path='/register' exact render={(props) => (<RegistrationComponent {...props} onRegister={this.handleRegistration} />)} />
+              <Route path='/' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     );
   }

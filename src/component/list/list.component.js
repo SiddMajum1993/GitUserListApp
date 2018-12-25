@@ -24,6 +24,7 @@ class UserList extends Component {
         this.searchHandler = this.searchHandler.bind(this);
         this.leftPage = this.leftPage.bind(this);
         this.rightPage = this.rightPage.bind(this);
+        this.logoutHandler = this.logoutHandler.bind(this);
     }
 
 
@@ -159,6 +160,12 @@ class UserList extends Component {
         }
     }
 
+    //logout handler
+
+    logoutHandler = ()=>{
+        this.props.history.push('/');
+    }
+
 
 
     render() {
@@ -208,7 +215,8 @@ class UserList extends Component {
                     <div className='searchbar'>
                         <input type='text' placeholder='Search Name' onChange={(event) => this.searchHandler(event)} />
 
-                        <button onClick={this.sortHandler}>Sort</button>
+                        <button id='sortButton' onClick={this.sortHandler}>Sort</button>
+                        <button onClick={this.logoutHandler}>Logout</button>
                     </div>
                     {val}
                     {keys}

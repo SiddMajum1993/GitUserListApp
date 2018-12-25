@@ -60,6 +60,14 @@
     border-radius: 10px;
 }
 
+#sortButton{
+    right: 50% !important;
+}
+
+.searchbar button:hover,.leftButton:hover, .rightButton:hover{
+    background: yellow;
+}
+
 
 .listContainer table{
     width: 100%;
@@ -84,7 +92,7 @@
     background: white;
     position: relative;
     top: 68%;
-    left: 50%;
+    left: 42%;
     transform: translate;
     transform: translate(-60%,0%);
     width: 50px;

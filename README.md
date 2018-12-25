@@ -8,6 +8,9 @@ Open the project in an IDE and run `npm install` to install the dependencies.
 Then run `npm start` to start the application. The application should start at `localhost:3000` by default.
 
 Login: By default you can login with `username: admin password: admin`. However you can also register as a new user through the below link provided in the login screen.
+
+**Note: The app uses the git users api for the list of users data.
+
 The list page opens on successful login. The list page has the following options.
 
 Sort: sorts the list in ascending order off name. (Case sensitive, capital case gets higher priority)**needs work.

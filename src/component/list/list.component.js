@@ -55,17 +55,19 @@ class UserList extends Component {
 
     //method to initialize list of users to render
 
-    renderUsers = (start) => {
+    renderUsers = (start, filterArr = this.state.filteredUsers) => {
         if (start - this.state.lengthOfUsers < 0) {
 
             let arr = [];
             let i = start;
             while (i < start + LIST_PER_PAGE) {
-                arr.push(this.state.filteredUsers[i]);
+                arr.push(filterArr[i]);
                 i++;
             }
 
-            this.setState({ start: i, last: i + LIST_PER_PAGE, lengthOfUsers: this.state.filteredUsers.length, renderedUsers: [...arr] });
+            arr = _.without(arr, undefined);
+
+            this.setState({ start: i, last: i + LIST_PER_PAGE, filteredUsers: [...filterArr], renderedUsers: [...arr] });
         }
     }
 
@@ -110,13 +112,17 @@ class UserList extends Component {
         });
 
         temp = _.without(temp, undefined);
-        this.setState({ filteredUsers: [...temp] });
-        this.renderUsers(this.state.start, this.state.last);
+
+        this.setState({ lengthOfUsers: temp.length }, function () {
+
+            this.renderUsers(this.state.start, temp);
+        });
+
     }
 
     //Page handlers
     leftPage = () => {
-        if (this.state.start !== 0) {
+        if (this.state.start > 0) {
             let visibleList = this.state.last % 4;
             let start = (this.state.start - visibleList) > 0 ? (this.state.start - visibleList) : 0;
             let i = start - LIST_PER_PAGE;
@@ -127,6 +133,8 @@ class UserList extends Component {
             }
 
             this.setState({ last: start, start: start - LIST_PER_PAGE, renderedUsers: [...arr] });
+        } else {
+            alert('No more data');
         }
     }
 
@@ -151,7 +159,8 @@ class UserList extends Component {
 
         console.log('[ListComponent: ]', this.state);
         let val = null;
-        if (this.state.renderedUsers !== null) {
+        let keys = null;
+        if (this.state.renderedUsers.length !== 0) {
             val = (
                 <table className='userTable'>
                     <tr>
@@ -177,6 +186,14 @@ class UserList extends Component {
                 </table>
             );
 
+            keys = (
+                <div>
+
+                    <button onClick={this.leftPage} className='leftButton'>Left</button>
+                    <button onClick={this.rightPage} className='rightButton'>Right</button>
+                </div>
+            );
+
         }
 
         return (
@@ -188,8 +205,7 @@ class UserList extends Component {
                         <button onClick={this.sortHandler}>Sort</button>
                     </div>
                     {val}
-                    <button onClick={this.leftPage} className='leftButton'>Left</button>
-                    <button onClick={this.rightPage} className='rightButton'>Right</button>
+                    {keys}
                 </div>
             </div>
         );

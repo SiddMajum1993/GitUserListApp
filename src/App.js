@@ -52,6 +52,23 @@ class App extends Component {
     this.props.history.push('/');
   }
 
+
+  //validate login
+
+  validateLogin = (obj)=>{
+    let ind = 0;
+    this.state.user.map((item,index)=>{
+      if(item.username === obj.username){
+        ind = index;
+      }
+    });
+
+    if(this.state.user[ind].password === obj.password)
+      return true;
+    else
+      return false;
+  }
+
   //difine login handler
 
   handleLogin = (obj) => {
@@ -59,7 +76,12 @@ class App extends Component {
     if (this.checkUserExists(obj.username)) {
       console.log('Logging In in 5secs......');
       // ToDo username password validation
-      this.props.history.push('/userlist');
+      if(this.validateLogin(obj)){
+
+        this.props.history.push('/userlist');
+      }else{
+        alert('Usename Password Incorrect');
+      }
 
     } else {
       alert("Username dosen't exists");

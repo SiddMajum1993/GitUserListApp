@@ -1,5 +1,30 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+##Environment Setup
+1.	Install npm
+2.	Install create-react-app package. 
+For detail instruction check the following link: https://reactjs.org/docs/create-a-new-react-app.html
+Open the project in an IDE and run `npm install` to install the dependencies.
+Then run `npm start` to start the application. The application should start at `localhost:3000` by default.
+
+Login: By default you can login with `username: admin password: admin`. However you can also register as a new user through the below link provided in the login screen.
+The list page opens on successful login. The list page has the following options.
+
+Sort: sorts the list in ascending order off name. (Case sensitive, capital case gets higher priority)**needs work.
+
+Logout: log out the user.
+
+Search: search a given user by name. **needs work(issues in state updation).
+
+Edit: edit a user
+
+Delete: delete a user
+
+Pagination: simple pagination to go left and right. (double click required to change from left to right)**needs work.
+
+##Dependencies: Html, Css, ReactJs, React-Router, Loadash.
+
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import './list.component.css';
 
+import loader from '../assets/loader_3.gif'
+
 const LIST_PER_PAGE = 4;
 
 class UserList extends Component {
@@ -203,14 +205,14 @@ class UserList extends Component {
 
         let filteredArray = [...this.state.filteredUsers];
 
-        filteredArray.map((item)=>{
-            if(item.id == this.state.editUser.id){
+        filteredArray.map((item) => {
+            if (item.id == this.state.editUser.id) {
                 item.login = this.state.editUser.login;
                 item.type = this.state.editUser.type;
             }
         });
 
-        this.renderUsers(this.state.start - LIST_PER_PAGE,filteredArray);
+        this.renderUsers(this.state.start - LIST_PER_PAGE, filteredArray);
 
         this.setState({ showEditForm: false });
         //ToDo: implement method to save updated user to filtered user array;
@@ -238,7 +240,12 @@ class UserList extends Component {
     render() {
 
         console.log('[ListComponent: ]', this.state);
-        let val = null;
+        let val = (
+
+            <div id='loader'>
+                <img src={loader} alt='loader' />
+            </div>
+        );
         let keys = null;
         let editForm = null;
         if (this.state.renderedUsers.length !== 0) {

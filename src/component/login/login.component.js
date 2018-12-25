@@ -51,6 +51,7 @@ class LoginComponent extends Component {
                         <Link to='/register' className='registerRoute'>New User? Register Here!</Link>
                     </form>
                 </div>
+
             </div>
         );
     }

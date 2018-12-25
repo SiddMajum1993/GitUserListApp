@@ -17,6 +17,12 @@ class UserList extends Component {
             start: 0,
             last: 0,
             lengthOfUsers: 0,
+            showEditForm: false,
+            editUser: {
+                login: '',
+                type: '',
+                id: '',
+            }
         }
 
         this.renderUsers = this.renderUsers.bind(this);
@@ -25,6 +31,8 @@ class UserList extends Component {
         this.leftPage = this.leftPage.bind(this);
         this.rightPage = this.rightPage.bind(this);
         this.logoutHandler = this.logoutHandler.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+
     }
 
 
@@ -103,7 +111,7 @@ class UserList extends Component {
         let filteredUsers = [...this.state.filteredUsers];
         filteredUsers = _.sortBy(filteredUsers, ['login']);
         //console.log(filteredUsers);
-        this.renderUsers(undefined,filteredUsers);
+        this.renderUsers(undefined, filteredUsers);
 
     }
 
@@ -162,17 +170,65 @@ class UserList extends Component {
 
     //logout handler
 
-    logoutHandler = ()=>{
+    logoutHandler = () => {
         this.props.history.push('/');
     }
 
+    //delete user
 
+    deleteUser = (id) => {
+        let filterArr = this.state.filteredUsers.filter(item => {
+            return item.id != id;
+        });
+
+        this.renderUsers(this.state.start - LIST_PER_PAGE, filterArr);
+    }
+
+    //edit user
+    editUser = (obj) => {
+        this.setState({ showEditForm: true });
+        let edituser = {
+            login: obj.login,
+            type: obj.type,
+            id: obj.id,
+        };
+        //dynamically add the value to the form
+        this.setState({ editUser: edituser });
+
+    }
+
+    //form control for edit user
+    handleSumit = (event) => {
+        console.log(this.state.editUser.login + " , " + this.state.editUser.type + "," + this.state.editUser.id);
+
+        //ToDo: implement method to save updated user to filtered user array;
+        event.preventDefault();
+    }
+
+    handleChangeUname = (event) => {
+        let edituser = {
+            login: event.target.value,
+            type: this.state.editUser.type,
+            id: this.state.editUser.id,
+        };
+        this.setState({ editUser: edituser });
+    }
+
+    handleChangeUsertype = (event) => {
+        let edituser = {
+            login: this.state.editUser.login,
+            type: event.target.value,
+            id: this.state.editUser.id,
+        };
+        this.setState({ editUser: edituser });
+    }
 
     render() {
 
         console.log('[ListComponent: ]', this.state);
         let val = null;
         let keys = null;
+        let editForm = null;
         if (this.state.renderedUsers.length !== 0) {
             val = (
                 <table className='userTable'>
@@ -181,10 +237,10 @@ class UserList extends Component {
                         <th>UserName</th>
                         <th>UserID</th>
                         <th>TestData</th>
-                        <th>TestData</th>
                         <th>UserType</th>
+                        <th>Edit/Delete</th>
                     </tr>
-                    {this.state.renderedUsers.map(item => {
+                    {this.state.renderedUsers.map((item) => {
                         return (<tr>
                             <td>
                                 <img src={item.avatar_url} className='profileImage' />
@@ -192,8 +248,11 @@ class UserList extends Component {
                             <td>{item.login}</td>
                             <td>{item.id}</td>
                             <td>TestData</td>
-                            <td>TestData</td>
                             <td>{item.type}</td>
+                            <td>
+                                <button onClick={() => this.editUser(item)}>Edit</button>
+                                <button onClick={() => this.deleteUser(item.id)}>Delete</button>
+                            </td>
                         </tr>)
                     })}
                 </table>
@@ -207,10 +266,25 @@ class UserList extends Component {
                 </div>
             );
 
+            if (this.state.showEditForm) {
+
+                editForm = (
+                    <div className='accordian'>
+                        <h1>Edit User</h1>
+                        <form onSubmit={this.handleSumit}>
+                            <input type='text' id='editusername' placeholder='Enter Username' onChange={this.handleChangeUname} />
+                            <input type='text' id='editusertype' placeholder='Enter Usertype' onChange={this.handleChangeUsertype} />
+                            <input type='Submit' value='Update' />
+                        </form>
+                    </div>
+                )
+            }
+
         }
 
         return (
             <div className='background'>
+
                 <div className='listContainer'>
                     <div className='searchbar'>
                         <input type='text' placeholder='Search Name' onChange={(event) => this.searchHandler(event)} />
@@ -221,6 +295,8 @@ class UserList extends Component {
                     {val}
                     {keys}
                 </div>
+
+                {editForm}
             </div>
         );
     }

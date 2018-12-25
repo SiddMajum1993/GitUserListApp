@@ -98,3 +98,39 @@
     width: 50px;
     text-align: center;
 }
+
+/* Accordian css added */
+
+.accordian{
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* text-align: center; */
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.accordian h1{
+    padding: 0px;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.accordian input{
+    width: 80%;
+    margin-top: 15px;
+    padding: 5px;
+    font-size: 17px;
+}
+
+.accordian input[type='Submit']{
+    width: 60%;
+    border-radius: 5px;
+}

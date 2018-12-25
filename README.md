@@ -22,7 +22,7 @@ Delete: delete a user
 
 Pagination: simple pagination to go left and right. (double click required to change from left to right)**needs work.
 
-##Dependencies: Html, Css, ReactJs, React-Router, Loadash.
+##Dependencies: Html, Css, ReactJs, React-Router,React-transition-group, Loadash.
 
 
 ## Available Scripts

@@ -201,6 +201,18 @@ class UserList extends Component {
     handleSumit = (event) => {
         console.log(this.state.editUser.login + " , " + this.state.editUser.type + "," + this.state.editUser.id);
 
+        let filteredArray = [...this.state.filteredUsers];
+
+        filteredArray.map((item)=>{
+            if(item.id == this.state.editUser.id){
+                item.login = this.state.editUser.login;
+                item.type = this.state.editUser.type;
+            }
+        });
+
+        this.renderUsers(this.state.start - LIST_PER_PAGE,filteredArray);
+
+        this.setState({ showEditForm: false });
         //ToDo: implement method to save updated user to filtered user array;
         event.preventDefault();
     }

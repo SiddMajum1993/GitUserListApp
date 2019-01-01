@@ -18,11 +18,11 @@ class LoginComponent extends Component {
     //dife handlers
 
     handleSumit = (event)=>{
-
+        
+        event.preventDefault();
         console.log('Username : ',this.state.username);
         console.log('Password : ',this.state.password);
         this.props.onlogin(this.state);
-        event.preventDefault();
     }
 
     handleChangeUname = (event)=>{

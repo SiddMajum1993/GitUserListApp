@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Fire from './config/config';
 
 import LoginComponent from './component/login/login.component';
 import ListComponent from './component/list/list.component';
@@ -10,101 +11,88 @@ import RegistrationComponent from './component/registration/registration.compone
 
 import './App.css';
 
+// global authentication observer
+
+Fire.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    console.log('[Global Auth Object triggered ] : User Info --> ', user);
+    // ...
+  } else {
+    // User is signed out.
+    console.log('[Global Auth Object triggered ] : error Info --> ', user);
+  }
+});
+
 class App extends Component {
 
   constructor(props) {
     super(props);
-
-    this.handleLogin = this.handleLogin.bind(this);
-    this.registerUser = this.registerUser.bind(this);
   }
-
 
   //define state
 
   state = {
-    user: [
-      { username: 'admin', password: 'admin', name: 'admin' },
-    ]
+        username: '',
   }
 
-  //define method to check user exits or not
-
-  checkUserExists = (name) => {
-    let count = 0;
-    this.state.user.map(item => {
-      if (item.username === name) {
-        count++;
-      }
-    });
-    return count > 0 ? true : false;
-  }
-
-  // define method to register new user
-
-  registerUser = (obj) => {
-    let userArray = [...this.state.user];
-    let userObj = {
-      'username': obj.uname,
-      'password': obj.password,
-      'name': obj.name,
-    }
-    userArray.push(userObj);
-    this.setState({ user: userArray });
-    this.props.history.push('/');
-  }
-
-
-  //validate login
-
-  validateLogin = (obj) => {
-    let ind = 0;
-    this.state.user.map((item, index) => {
-      if (item.username === obj.username) {
-        ind = index;
-      }
-    });
-
-    if (this.state.user[ind].password === obj.password)
-      return true;
-    else
-      return false;
-  }
 
   //difine login handler
 
   handleLogin = (obj) => {
-    //check if user exists
-    if (this.checkUserExists(obj.username)) {
-      console.log('Logging In in 5secs......');
-      // ToDo username password validation
-      if (this.validateLogin(obj)) {
 
+    /* Login with given credentials 
+        if username password is incorrect then show message 
+          else if login fails then redirect to regiser page
+        else redirect to list page
+    */
+
+    Fire.auth().signInWithEmailAndPassword(obj.username, obj.password)
+      .then((response) => {
+        console.log('[Successful sign in: ]', response);
+        this.setState({ username: response.user.email });
         this.props.history.push('/userlist');
-      } else {
-        alert('Usename Password Incorrect');
-      }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log('[error in sign in: ]', error);
+        // ...
+      });
 
-    } else {
-      alert("Username dosen't exists");
-    }
   }
 
   //define registration handler
 
   handleRegistration = (obj) => {
-    if (this.checkUserExists(obj.uname)) {
-      alert("Username already exists. Try another one!");
-    } else {
-      this.registerUser(obj);
-    }
+    Fire.auth().createUserWithEmailAndPassword(obj.uname, obj.password)
+      .then((res) => {
+        console.log(res);
+        this.setState({ username: res.email });
+        this.props.history.push('/userlist');
+      }).catch((error) => {
+        console.log(error);
+      });
+
   }
 
 
+  // define logoutHandler
 
+  handleLogout = () => {
+    Fire.auth().signOut();
+    this.setState({ username: '' });
+    this.props.history.push('/');
+  }
 
   render() {
-    console.log(this.props)
+    //console.log(this.props)
+
+    // only allow valid user to log in;
+    let userlist = (this.state.username !== '') ?
+      <Route path='/userlist' exact render={(props) => (<ListComponent {...props} onLogout={this.handleLogout} />)} /> :
+      <Route path='/userlist' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
     return (
       <div>
         <TransitionGroup>
@@ -114,7 +102,8 @@ class App extends Component {
             classNames={'fade'}
           >
             <Switch location={this.props.location}>
-              <Route path='/userlist' exact component={ListComponent} />
+              {/* <Route path='/userlist' exact component={ListComponent} /> */}
+              {userlist}
               <Route path='/register' exact render={(props) => (<RegistrationComponent {...props} onRegister={this.handleRegistration} />)} />
               <Route path='/' exact render={(props) => (<LoginComponent {...props} onlogin={this.handleLogin} />)} />
             </Switch>

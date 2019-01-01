@@ -4,6 +4,7 @@ import _ from 'lodash';
 import './list.component.css';
 
 import loader from '../assets/loader_3.gif'
+import Fire from '../../config/config';
 
 const LIST_PER_PAGE = 4;
 
@@ -85,31 +86,7 @@ class UserList extends Component {
 
     //SortHandler
     sortHandler = () => {
-        // let switching = true;
-        // let rows, shouldSwitch, tableRows, x, y, i;
-        // let table = document.getElementsByClassName('userTable');
-        // tableRows = table[0].getElementsByTagName('TR');
-        // console.log(tableRows.length);
-        // while (switching) {
-        //     switching = false;
-        //     for (i = 1; i < (tableRows.length - 1); i++) {
-        //         x = tableRows[i].getElementsByTagName('TD')[1];
-        //         y = tableRows[i + 1].getElementsByTagName('TD')[1];
-
-        //         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-        //             shouldSwitch = true;
-        //             break;
-        //         }
-        //     }
-
-        //     if (shouldSwitch) {
-        //         if (i < tableRows.length - 1) {
-        //             tableRows[i].parentNode.insertBefore(tableRows[i + 1], tableRows[i]);
-        //             switching = true;
-        //         }
-        //     }
-        // }
-
+        
         let filteredUsers = [...this.state.filteredUsers];
         filteredUsers = _.sortBy(filteredUsers, ['login']);
         //console.log(filteredUsers);
@@ -173,7 +150,8 @@ class UserList extends Component {
     //logout handler
 
     logoutHandler = () => {
-        this.props.history.push('/');
+        //this.props.history.push('/');
+        this.props.onLogout();
     }
 
     //delete user
